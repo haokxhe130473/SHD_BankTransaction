@@ -1,0 +1,24 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+# Đặt các pattern ignore ở đây
+# Ignore Visual Studio temporary files
+.vs/
+*.suo
+*.user
+*.tmp
+*.log
+*.cache
+
+# Ignore build output
+bin/
+obj/
+debug/
+release/
+
+# Ignore other common temporary files
+*.orig
+*~
+
+/SHD_BankAccount_Transaction/.vs
+/SHD_BankAccount_Transaction/SHD_BankAccount_Transaction.Server/SHD_BankAccount_Transaction.Server.csproj.user

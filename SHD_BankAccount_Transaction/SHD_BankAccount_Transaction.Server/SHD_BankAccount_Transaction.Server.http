@@ -1,0 +1,6 @@
+@SHD_BankAccount_Transaction.Server_HostAddress = http://localhost:5052
+
+GET {{SHD_BankAccount_Transaction.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
