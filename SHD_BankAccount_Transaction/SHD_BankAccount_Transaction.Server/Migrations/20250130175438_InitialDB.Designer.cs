@@ -12,8 +12,8 @@ using SHD_BankAccount_Transaction.Server.Data;
 namespace SHD_BankAccount_Transaction.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250128100542_NewTableStructure")]
-    partial class NewTableStructure
+    [Migration("20250130175438_InitialDB")]
+    partial class InitialDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

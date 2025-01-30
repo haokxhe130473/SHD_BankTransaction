@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SHD_BankAccount_Transaction.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class NewTableStructure : Migration
+    public partial class InitialDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
