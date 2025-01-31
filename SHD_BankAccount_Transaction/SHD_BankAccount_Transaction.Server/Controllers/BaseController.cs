@@ -4,6 +4,7 @@ using SHD_BankAccount_Transaction.Server.Models;
 namespace SHD_BankAccount_Transaction.Server.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class BaseController : ControllerBase
     {
         public BaseController()

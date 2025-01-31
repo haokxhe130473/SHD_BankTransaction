@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SHD_BankAccount_Transaction.Server.Models;
 using SHD_BankAccount_Transaction.Server.Services;
 
 namespace SHD_BankAccount_Transaction.Server.Controllers
@@ -12,21 +13,48 @@ namespace SHD_BankAccount_Transaction.Server.Controllers
             _accountService = accountService;
         }
 
-        [HttpGet("account/select-all")]
-        public async Task<IActionResult> GetAllAccounts()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<account>>> GetAllAccounts()
         {
             var accounts = await _accountService.GetAllAccountsAsync();
-            return this.OK(accounts);
+            return Ok(accounts);
         }
 
-        [HttpGet("account/select-by-id")]
-        public async Task<IActionResult> GetAccountById([FromQuery] int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<account>> GetAccountById(int id)
         {
             var account = await _accountService.GetAccountByIdAsync(id);
             if (account == null)
+            {
                 return NotFound();
+            }
+            return Ok(account);
+        }
 
-            return this.OK(account);
+        [HttpPost]
+        public async Task<ActionResult<account>> CreateAccount(account account)
+        {
+            var createdAccount = await _accountService.CreateAccountAsync(account);
+            return CreatedAtAction(nameof(GetAccountById), new { id = createdAccount.id }, createdAccount);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAccount(int id, account account)
+        {
+            if (id != account.id)
+            {
+                return BadRequest();
+            }
+
+            await _accountService.UpdateAccountAsync(account);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAccount(int id)
+        {
+            await _accountService.DeleteAccountAsync(id);
+            return NoContent();
         }
     }
 }

@@ -4,7 +4,10 @@ namespace SHD_BankAccount_Transaction.Server.Services
 {
     public interface IAccountService
     {
-        Task<List<account>> GetAllAccountsAsync();
+        Task<IEnumerable<account>> GetAllAccountsAsync();
         Task<account> GetAccountByIdAsync(int id);
+        Task<account> CreateAccountAsync(account account);
+        Task UpdateAccountAsync(account account);
+        Task DeleteAccountAsync(int id);
     }
 }
