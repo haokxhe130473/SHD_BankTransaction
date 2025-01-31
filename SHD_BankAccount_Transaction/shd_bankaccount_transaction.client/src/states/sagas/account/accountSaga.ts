@@ -3,69 +3,66 @@ import { rootAction } from "../../actions/rootAction";
 import { eAccountActionTypeIds } from "../../action-types/account/IAccountActionTypes";
 import { apiWrapper } from "../../../apis/apiWrapper";
 import { IBaseResponeModel } from "../../../models/response/IBaseResponeModel";
-// import { IKpiOrkDataItemRequest } from "../../../models/request/kpi-ork/IKpiOrkDataItemRequest";
 
 export function* accountSaga() {
   yield takeEvery(eAccountActionTypeIds.GET_ACCOUNT_START, loadWorker);
-//   yield takeEvery(eKpiOrkActionTypeIds.INSERT_UPDATE_KPI_ORK_START, loadWorkerInsertUpdate);
-
+  yield takeEvery(eAccountActionTypeIds.CREATE_ACCOUNT_START, createWorker);
+  yield takeEvery(eAccountActionTypeIds.UPDATE_ACCOUNT_START, updateWorker);
+  yield takeEvery(eAccountActionTypeIds.DELETE_ACCOUNT_START, deleteWorker);
 }
 
 function* loadWorker(): Generator<unknown, void, IBaseResponeModel> {
-  const res = yield call(apiWrapper.account.getAccount);
+  const res = yield call(apiWrapper.account.getAllAccounts);
   if (res.is_success) {
     yield put(rootAction.account.getAccountSuccess(res.data));
   } else {
     yield put(
-      rootAction.account.getAccountError(res.message || "Cannot load account!")
+      rootAction.account.getAccountError(res.message || "Cannot load accounts!")
     );
   }
 }
-// function* loadWorkerInsertUpdate(action: {
-//   type: string;
-//   payload: IKpiOrkDataItemRequest[];
-// }) {
-//   try {
-//     const res: IBaseResponeModel = yield call(
-//       apiWrapper.kpiOrk.insertUpdate,
-//       action.payload
-//     );
 
-//     if (res.is_success) {
-//       console.log(res.data);
-//       yield put(rootAction.kpiOrk.insertUpdateKpiOrkSuccess(res.data));
-//       yield put(
-//         rootAction.notification.showNotification({
-//           message: "Cập nhật thành công",
-//           type: "success",
-//         })
-//       );
-//     } else {
-//       // Hiển thị thông báo lỗi từ response
-//       yield put(
-//         rootAction.kpiOrk.insertUpdateKpiOrkError(
-//           res.message || "Lưu không thành công"
-//         )
-//       );
-//       yield put(
-//         rootAction.notification.showNotification({
-//           message: "Lưu không thành công",
-//           type: "error",
-//         })
-//       );
-//     }
-//   } catch (error) {
-//     // Xử lý lỗi không mong muốn (network error, server error, v.v.)
-//     yield put(
-//       rootAction.kpiOrk.insertUpdateKpiOrkError(
-//         "Lưu không thành công"
-//       )
-//     );
-//     yield put(
-//       rootAction.notification.showNotification({
-//         message: "Lưu không thành công",
-//         type: "error",
-//       })
-//     );
-//   }
-// }
+function* createWorker(
+  action: ReturnType<typeof rootAction.account.createAccountStart>
+): Generator<unknown, void, IBaseResponeModel> {
+  const res = yield call(apiWrapper.account.createAccount, action.payload);
+  if (res.is_success) {
+    yield put(rootAction.account.createAccountSuccess(res.data));
+  } else {
+    yield put(
+      rootAction.account.createAccountError(
+        res.message || "Cannot create account!"
+      )
+    );
+  }
+}
+
+function* updateWorker(
+  action: ReturnType<typeof rootAction.account.updateAccountStart>
+): Generator<unknown, void, IBaseResponeModel> {
+  const res = yield call(apiWrapper.account.updateAccount, action.payload);
+  if (res.is_success) {
+    yield put(rootAction.account.updateAccountSuccess(res.data));
+  } else {
+    yield put(
+      rootAction.account.updateAccountError(
+        res.message || "Cannot update account!"
+      )
+    );
+  }
+}
+
+function* deleteWorker(
+  action: ReturnType<typeof rootAction.account.deleteAccountStart>
+): Generator<unknown, void, IBaseResponeModel> {
+  const res = yield call(apiWrapper.account.deleteAccount, action.payload);
+  if (res.is_success) {
+    yield put(rootAction.account.deleteAccountSuccess(action.payload));
+  } else {
+    yield put(
+      rootAction.account.deleteAccountError(
+        res.message || "Cannot delete account!"
+      )
+    );
+  }
+}

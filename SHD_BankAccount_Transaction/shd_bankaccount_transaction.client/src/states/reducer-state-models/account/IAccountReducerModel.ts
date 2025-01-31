@@ -5,5 +5,5 @@ export interface IAccountReducerModel {
     status: eReducerBaseStatus;
     accountData?: IAccountItemResponse[];
     error?: string;
-    insertUpdateStatus?: boolean | undefined;
+    insertUpdateStatus?: eReducerBaseStatus;
 }

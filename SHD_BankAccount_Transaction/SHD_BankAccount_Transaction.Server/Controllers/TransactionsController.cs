@@ -17,14 +17,14 @@ namespace SHD_BankAccount_Transaction.Server.Controllers
         public async Task<ActionResult<IEnumerable<transaction>>> GetTransactionsByAccountId(int accountId)
         {
             var transactions = await _transactionService.GetTransactionsByAccountIdAsync(accountId);
-            return Ok(transactions);
+            return this.OK(transactions);
         }
 
         [HttpPost]
         public async Task<ActionResult<transaction>> CreateTransaction(transaction transaction)
         {
             var createdTransaction = await _transactionService.CreateTransactionAsync(transaction);
-            return Ok(createdTransaction);
+            return this.OK(createdTransaction);
         }
     }
 }

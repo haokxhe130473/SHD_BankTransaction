@@ -17,7 +17,7 @@ namespace SHD_BankAccount_Transaction.Server.Controllers
         public async Task<ActionResult<IEnumerable<account>>> GetAllAccounts()
         {
             var accounts = await _accountService.GetAllAccountsAsync();
-            return Ok(accounts);
+            return this.OK(accounts);
         }
 
         [HttpGet("{id}")]
@@ -28,14 +28,16 @@ namespace SHD_BankAccount_Transaction.Server.Controllers
             {
                 return NotFound();
             }
-            return Ok(account);
+            return this.OK(account);
         }
 
         [HttpPost]
         public async Task<ActionResult<account>> CreateAccount(account account)
         {
             var createdAccount = await _accountService.CreateAccountAsync(account);
-            return CreatedAtAction(nameof(GetAccountById), new { id = createdAccount.id }, createdAccount);
+            return 
+                CreatedAtAction(nameof(GetAccountById), new { id = createdAccount.id }, 
+                createdAccount);
         }
 
         [HttpPut("{id}")]
@@ -47,14 +49,14 @@ namespace SHD_BankAccount_Transaction.Server.Controllers
             }
 
             await _accountService.UpdateAccountAsync(account);
-            return NoContent();
+            return this.OK("Updated successfully");
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccount(int id)
         {
             await _accountService.DeleteAccountAsync(id);
-            return NoContent();
+            return this.OK("Deleted successfully");
         }
     }
 }
