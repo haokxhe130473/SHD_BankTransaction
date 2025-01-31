@@ -4,7 +4,11 @@ namespace SHD_BankAccount_Transaction.Server.Services
 {
     public interface ITransactionService
     {
-        Task<IEnumerable<transaction>> GetTransactionsByAccountIdAsync(int accountId);
-        Task<transaction> CreateTransactionAsync(transaction transaction);
+        Task<IEnumerable<TransactionDTO>> GetTransactionsByAccountIdAsync(int accountId);
+        Task<Transaction> CreateTransactionAsync(Transaction transaction);
+        Task<Transaction> GetTransactionByIdAsync(int transactionId);
+        Task<IEnumerable<Transaction>> GetTransactionsBetweenAccountsAsync(int accountId1, int accountId2);
+        Task<decimal> GetTotalSentAmountAsync(int accountId);
+        Task<decimal> GetTotalReceivedAmountAsync(int accountId);   
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SHD_BankAccount_Transaction.Server.Data;
 
@@ -11,9 +12,11 @@ using SHD_BankAccount_Transaction.Server.Data;
 namespace SHD_BankAccount_Transaction.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250131161011_UpdateAccountTransactionSchema")]
+    partial class UpdateAccountTransactionSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,6 +58,41 @@ namespace SHD_BankAccount_Transaction.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Accounts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccountName = "Alice",
+                            Balance = 5000m,
+                            CreatedTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedUserId = 0,
+                            IsDeleted = false,
+                            LastModifiedTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModifiedUserId = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccountName = "Bob",
+                            Balance = 3000m,
+                            CreatedTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedUserId = 0,
+                            IsDeleted = false,
+                            LastModifiedTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModifiedUserId = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AccountName = "Charlie",
+                            Balance = 7000m,
+                            CreatedTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedUserId = 0,
+                            IsDeleted = false,
+                            LastModifiedTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModifiedUserId = 0
+                        });
                 });
 
             modelBuilder.Entity("SHD_BankAccount_Transaction.Server.Models.Transaction", b =>
@@ -103,6 +141,36 @@ namespace SHD_BankAccount_Transaction.Server.Migrations
                     b.HasIndex("ToAccountId");
 
                     b.ToTable("Transactions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = 500m,
+                            CreatedTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedUserId = 0,
+                            Description = "Transfer to Bob",
+                            FromAccountId = 1,
+                            IsDeleted = false,
+                            LastModifiedTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModifiedUserId = 0,
+                            ToAccountId = 2,
+                            TransactionDate = new DateTimeOffset(new DateTime(2025, 1, 31, 16, 10, 10, 222, DateTimeKind.Unspecified).AddTicks(6691), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Amount = 1000m,
+                            CreatedTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedUserId = 0,
+                            Description = "Payment from Charlie",
+                            FromAccountId = 3,
+                            IsDeleted = false,
+                            LastModifiedTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModifiedUserId = 0,
+                            ToAccountId = 1,
+                            TransactionDate = new DateTimeOffset(new DateTime(2025, 1, 30, 16, 10, 10, 222, DateTimeKind.Unspecified).AddTicks(7891), new TimeSpan(0, 0, 0, 0, 0))
+                        });
                 });
 
             modelBuilder.Entity("SHD_BankAccount_Transaction.Server.Models.Transaction", b =>

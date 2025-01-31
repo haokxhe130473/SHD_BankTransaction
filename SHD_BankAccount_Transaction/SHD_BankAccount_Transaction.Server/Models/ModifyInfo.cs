@@ -2,22 +2,22 @@
 
 namespace SHD_BankAccount_Transaction.Server.Models
 {
-    public class modify_info
+    public class ModifyInfo
     {
         [JsonIgnore]
-        public bool is_deleted { get; set; }
+        public bool IsDeleted { get; set; }
 
         [JsonIgnore]
-        public DateTime created_time { get; set; }
+        public DateTime CreatedTime { get; set; }
 
         [JsonIgnore]
-        public int created_user_id { get; set; }
+        public int CreatedUserId { get; set; }
 
         [JsonIgnore]
-        public DateTime last_modified_time { get; set; }
+        public DateTime LastModifiedTime { get; set; }
 
         [JsonIgnore]
-        public int last_modified_user_id { get; set; }
+        public int LastModifiedUserId { get; set; }
 
         /// <summary>
         /// Set thông tin người thêm, thời gian thêm record này
@@ -25,9 +25,9 @@ namespace SHD_BankAccount_Transaction.Server.Models
         /// <param name="UserID"></param>
         public void SetInsertInfo(int created_user_id)
         {
-            this.is_deleted = false;
-            this.created_user_id = this.last_modified_user_id = created_user_id;
-            this.created_time = this.last_modified_time = DateTime.Now;
+            this.IsDeleted = false;
+            this.CreatedUserId = this.LastModifiedUserId = created_user_id;
+            this.CreatedTime = this.LastModifiedTime = DateTime.Now;
         }
 
         /// <summary>
@@ -36,8 +36,8 @@ namespace SHD_BankAccount_Transaction.Server.Models
         /// <param name="UserID"></param>
         public void SetUpdateInfo(int last_modified_user_id)
         {
-            this.last_modified_user_id = last_modified_user_id;
-            this.last_modified_time = DateTime.Now;
+            this.LastModifiedUserId = last_modified_user_id;
+            this.LastModifiedTime = DateTime.Now;
         }
     }
 }

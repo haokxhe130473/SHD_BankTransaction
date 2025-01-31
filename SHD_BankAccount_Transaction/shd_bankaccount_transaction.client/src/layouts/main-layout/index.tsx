@@ -28,13 +28,13 @@ const MainLayout = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Box sx={{ display: "flex", minHeight: "100vh" }}>
-      <Sidebar drawerWidth={drawerWidth} />
+      {/* <Sidebar drawerWidth={drawerWidth} />
         <MobileSidebar
           onDrawerClose={handleDrawerClose}
           onDrawerTransitionEnd={handleDrawerTransitionEnd}
           mobileOpen={mobileOpen}
           drawerWidth={drawerWidth.lg}
-        />
+        /> */}
 
         {/* <Stack
           sx={{

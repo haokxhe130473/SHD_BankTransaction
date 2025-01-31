@@ -1,3 +1,4 @@
+import { ITransactionItemRequest } from "../../../models/request/transaction/ITransactionItemRequest";
 import { ITransactionItemResponse } from "../../../models/response/transaction/ITransactionItemResponse";
 import { eTransactionActionTypeIds } from "../../action-types/transaction/ITransactionActionTypes";
 import { baseAction } from "../BaseActionResult";
@@ -20,17 +21,17 @@ export const transactionActions = {
     baseAction(eTransactionActionTypeIds.GET_TRANSACTION_ERROR, err),
 
   // Tạo mới giao dịch
-  createTransactionStart: (request: ITransactionItemResponse) =>
+  createTransactionStart: (request: ITransactionItemRequest) =>
     baseAction(eTransactionActionTypeIds.CREATE_TRANSACTION_START, request),
-  createTransactionSuccess: (response: ITransactionItemResponse) =>
+  createTransactionSuccess: (response: ITransactionItemRequest) =>
     baseAction(eTransactionActionTypeIds.CREATE_TRANSACTION_SUCCESS, response),
   createTransactionError: (err: string) =>
     baseAction(eTransactionActionTypeIds.CREATE_TRANSACTION_ERROR, err),
 
   // Cập nhật giao dịch
-  updateTransactionStart: (request: ITransactionItemResponse) =>
+  updateTransactionStart: (request: ITransactionItemRequest) =>
     baseAction(eTransactionActionTypeIds.UPDATE_TRANSACTION_START, request),
-  updateTransactionSuccess: (response: ITransactionItemResponse) =>
+  updateTransactionSuccess: (response: ITransactionItemRequest) =>
     baseAction(eTransactionActionTypeIds.UPDATE_TRANSACTION_SUCCESS, response),
   updateTransactionError: (err: string) =>
     baseAction(eTransactionActionTypeIds.UPDATE_TRANSACTION_ERROR, err),

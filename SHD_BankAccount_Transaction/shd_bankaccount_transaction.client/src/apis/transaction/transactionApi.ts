@@ -1,5 +1,5 @@
+import { ITransactionItemRequest } from "../../models/request/transaction/ITransactionItemRequest";
 import { IBaseResponeModel } from "../../models/response/IBaseResponeModel";
-import { ITransactionItemResponse } from "../../models/response/transaction/ITransactionItemResponse";
 import { apiClient } from "../apiClient";
 
 export const transactionApi = {
@@ -22,16 +22,16 @@ export const transactionApi = {
 
   // Tạo một giao dịch mới
   createTransaction: async (
-    transaction: ITransactionItemResponse
+    transaction: ITransactionItemRequest
   ): Promise<IBaseResponeModel> => {
     return await apiClient.post("transactions", transaction);
   },
 
   // Cập nhật thông tin giao dịch
   updateTransaction: async (
-    transaction: ITransactionItemResponse
+    transaction: ITransactionItemRequest
   ): Promise<IBaseResponeModel> => {
-    return await apiClient.put(`transactions/${transaction.id}`, transaction);
+    return await apiClient.put(`transactions/${transaction.Id}`, transaction);
   },
 
   // Xóa một giao dịch theo ID

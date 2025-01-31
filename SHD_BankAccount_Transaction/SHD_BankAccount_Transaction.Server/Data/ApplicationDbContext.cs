@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using SHD_BankAccount_Transaction.Server.Models;
 
 namespace SHD_BankAccount_Transaction.Server.Data
@@ -9,25 +8,26 @@ namespace SHD_BankAccount_Transaction.Server.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
+
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Cấu hình mối quan hệ giữa Account và Transaction
-            modelBuilder.Entity<account>()
-                .HasMany(a => a.transactions) // Một Account có nhiều Transactions
-                .WithOne(t => t.from_account) // Mỗi Transaction thuộc về một FromAccount
-                .HasForeignKey(t => t.from_account_id) // Khóa ngoại là FromAccountId
-                .OnDelete(DeleteBehavior.Restrict); // Ngăn xóa Account nếu có Transaction liên quan
+            // Cấu hình quan hệ giữa Account và Transaction
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.FromAccount)
+                .WithMany(a => a.SentTransactions)
+                .HasForeignKey(t => t.FromAccountId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<transaction>()
-                .HasOne(t => t.to_account) // Mỗi Transaction có một ToAccount
-                .WithMany() // Một ToAccount có thể có nhiều Transactions
-                .HasForeignKey(t => t.to_account_id) // Khóa ngoại là ToAccountId
-                .OnDelete(DeleteBehavior.Restrict); // Ngăn xóa Account nếu có Transaction liên quan
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.ToAccount)
+                .WithMany(a => a.ReceivedTransactions)
+                .HasForeignKey(t => t.ToAccountId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
-        public DbSet<account> accounts { get; set; }
-        public DbSet<transaction> transactions { get; set; }
-
     }
 }

@@ -1,13 +1,30 @@
 ﻿namespace SHD_BankAccount_Transaction.Server.Models
 {
-    public class transaction : modify_info
+    public class Transaction : ModifyInfo
     {
-        public int id { get; set; }
-        public DateTime date { get; set; }
-        public decimal amount { get; set; }
-        public int from_account_id { get; set; }
-        public account from_account { get; set; }
-        public int to_account_id { get; set; }
-        public account to_account { get; set; }
+        public int Id { get; set; }
+        public DateTimeOffset TransactionDate { get; set; }
+        public decimal Amount { get; set; }
+        public string Description { get; set; }
+
+        // Tài khoản gửi
+        public int FromAccountId { get; set; }
+        public Account FromAccount { get; set; }
+
+        // Tài khoản nhận
+        public int ToAccountId { get; set; }
+        public Account ToAccount { get; set; }
     }
+    public class TransactionDTO
+    {
+        public int Id { get; set; }
+        public DateTimeOffset TransactionDate { get; set; }
+        public decimal Amount { get; set; }
+        public string Description { get; set; }
+        public int FromAccountId { get; set; }
+        public string FromAccountName { get; set; }
+        public int ToAccountId { get; set; }
+        public string ToAccountName { get; set; }
+    }
+
 }

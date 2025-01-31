@@ -13,32 +13,78 @@ namespace SHD_BankAccount_Transaction.Server.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<transaction>> GetTransactionsByAccountIdAsync(int accountId)
+        public async Task<decimal> GetTotalSentAmountAsync(int accountId)
         {
-            return await _context.transactions
-                .Where(t => t.from_account_id == accountId || t.to_account_id == accountId)
+            return await _context.Transactions
+                .Where(t => t.FromAccountId == accountId)
+                .SumAsync(t => (decimal?)t.Amount) ?? 0;
+        }
+
+        public async Task<decimal> GetTotalReceivedAmountAsync(int accountId)
+        {
+            return await _context.Transactions
+                .Where(t => t.ToAccountId == accountId)
+                .SumAsync(t => (decimal?)t.Amount) ?? 0;
+        }
+
+        public async Task<Transaction> GetTransactionByIdAsync(int transactionId)
+        {
+            return await _context.Transactions
+                .Include(t => t.FromAccount)
+                .Include(t => t.ToAccount)
+                .FirstOrDefaultAsync(t => t.Id == transactionId);
+        }
+
+        public async Task<IEnumerable<Transaction>> GetTransactionsBetweenAccountsAsync(int accountId1, int accountId2)
+        {
+            return await _context.Transactions
+                .Where(t =>
+                    (t.FromAccountId == accountId1 && t.ToAccountId == accountId2) ||
+                    (t.FromAccountId == accountId2 && t.ToAccountId == accountId1))
+                .OrderByDescending(t => t.TransactionDate)
                 .ToListAsync();
         }
 
-        public async Task<transaction> CreateTransactionAsync(transaction transaction)
+        public async Task<IEnumerable<TransactionDTO>> GetTransactionsByAccountIdAsync(int accountId)
         {
-            var fromAccount = await _context.accounts.FindAsync(transaction.from_account_id);
-            var toAccount = await _context.accounts.FindAsync(transaction.to_account_id);
+            var transactions = await _context.Transactions
+                .Where(t => t.FromAccountId == accountId || t.ToAccountId == accountId)
+                .Include(t => t.FromAccount)
+                .Include(t => t.ToAccount)
+                .Select(t => new TransactionDTO
+                {
+                    Id = t.Id,
+                    TransactionDate = t.TransactionDate,
+                    Amount = t.Amount,
+                    Description = t.Description,
+                    FromAccountId = t.FromAccountId,
+                    FromAccountName = t.FromAccount.AccountName,
+                    ToAccountId = t.ToAccountId,
+                    ToAccountName = t.ToAccount.AccountName
+                })
+                .ToListAsync();
+            return transactions;
+        }
+
+        public async Task<Transaction> CreateTransactionAsync(Transaction transaction)
+        {
+            var fromAccount = await _context.Accounts.FindAsync(transaction.FromAccountId);
+            var toAccount = await _context.Accounts.FindAsync(transaction.ToAccountId);
 
             if (fromAccount == null || toAccount == null)
             {
                 throw new Exception("One or both accounts not found.");
             }
 
-            if (fromAccount.balance < transaction.amount)
+            if (fromAccount.Balance < transaction.Amount)
             {
                 throw new Exception("Insufficient funds.");
             }
 
-            fromAccount.balance -= transaction.amount;
-            toAccount.balance += transaction.amount;
+            fromAccount.Balance -= transaction.Amount;
+            toAccount.Balance += transaction.Amount;
 
-            _context.transactions.Add(transaction);
+            _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync();
 
             return transaction;

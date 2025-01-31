@@ -1,3 +1,4 @@
+import { IAccountItemRequest } from "../../../models/request/account/IAccountItemRequest";
 import { IAccountItemResponse } from "../../../models/response/account/IAccountItemResponse";
 import { eAccountActionTypeIds } from "../../action-types/account/IAccountActionTypes";
 import { baseAction } from "../BaseActionResult";
@@ -12,17 +13,17 @@ export const accountActions = {
         baseAction(eAccountActionTypeIds.GET_ACCOUNT_ERROR, err),
 
     // Tạo mới tài khoản
-    createAccountStart: (request: IAccountItemResponse) =>
+    createAccountStart: (request: IAccountItemRequest) =>
         baseAction(eAccountActionTypeIds.CREATE_ACCOUNT_START, request),
-    createAccountSuccess: (response: IAccountItemResponse) =>
+    createAccountSuccess: (response: IAccountItemRequest) =>
         baseAction(eAccountActionTypeIds.CREATE_ACCOUNT_SUCCESS, response),
     createAccountError: (err: string) =>
         baseAction(eAccountActionTypeIds.CREATE_ACCOUNT_ERROR, err),
 
     // Cập nhật tài khoản
-    updateAccountStart: (request: IAccountItemResponse) =>
+    updateAccountStart: (request: IAccountItemRequest) =>
         baseAction(eAccountActionTypeIds.UPDATE_ACCOUNT_START, request),
-    updateAccountSuccess: (response: IAccountItemResponse) =>
+    updateAccountSuccess: (response: IAccountItemRequest) =>
         baseAction(eAccountActionTypeIds.UPDATE_ACCOUNT_SUCCESS, response),
     updateAccountError: (err: string) =>
         baseAction(eAccountActionTypeIds.UPDATE_ACCOUNT_ERROR, err),

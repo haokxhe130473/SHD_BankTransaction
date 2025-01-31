@@ -1,11 +1,15 @@
 ﻿namespace SHD_BankAccount_Transaction.Server.Models
 {
-    public class account : modify_info
+    public class Account : ModifyInfo
     {
-        public int id { get; set; }
-        public string account_name { get; set; }
-        public decimal balance { get; set; }
-        public ICollection<transaction> transactions { get; set; } = new List<transaction>();
+        public int Id { get; set; }
+        public string AccountName { get; set; }
+        public decimal Balance { get; set; }
 
+        // Giao dịch mà tài khoản này là người gửi
+        public ICollection<Transaction> SentTransactions { get; set; } = new List<Transaction>();
+
+        // Giao dịch mà tài khoản này là người nhận
+        public ICollection<Transaction> ReceivedTransactions { get; set; } = new List<Transaction>();
     }
 }

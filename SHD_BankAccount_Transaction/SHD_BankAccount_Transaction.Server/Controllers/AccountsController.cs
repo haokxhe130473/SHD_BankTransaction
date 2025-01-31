@@ -14,14 +14,14 @@ namespace SHD_BankAccount_Transaction.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<account>>> GetAllAccounts()
+        public async Task<ActionResult<IEnumerable<Account>>> GetAllAccounts()
         {
             var accounts = await _accountService.GetAllAccountsAsync();
             return this.OK(accounts);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<account>> GetAccountById(int id)
+        public async Task<ActionResult<Account>> GetAccountById(int id)
         {
             var account = await _accountService.GetAccountByIdAsync(id);
             if (account == null)
@@ -32,18 +32,18 @@ namespace SHD_BankAccount_Transaction.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<account>> CreateAccount(account account)
+        public async Task<ActionResult<Account>> CreateAccount(Account account)
         {
             var createdAccount = await _accountService.CreateAccountAsync(account);
             return 
-                CreatedAtAction(nameof(GetAccountById), new { id = createdAccount.id }, 
+                CreatedAtAction(nameof(GetAccountById), new { id = createdAccount.Id }, 
                 createdAccount);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAccount(int id, account account)
+        public async Task<IActionResult> UpdateAccount(int id, Account account)
         {
-            if (id != account.id)
+            if (id != account.Id)
             {
                 return BadRequest();
             }

@@ -17,7 +17,7 @@ const MainNavbar = ({ onDrawerToggle }: NavbarProps) => {
 
   // Extract the route name from the pathname
   const pathSegments = location.pathname.split('/').filter((segment) => segment.trim() !== '');
-  const routeName = pathSegments.length > 0 ? pathSegments.pop() : 'Overview';
+  const routeName = pathSegments.length > 0 ? pathSegments.pop() : 'Account Transaction';
 
   const handleOpen = (event: MouseEvent<HTMLElement>) => {
     setOpen(event.currentTarget);

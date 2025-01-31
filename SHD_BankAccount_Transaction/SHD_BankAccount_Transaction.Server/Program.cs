@@ -17,13 +17,23 @@ namespace SHD_BankAccount_Transaction.Server
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<ITransactionService, TransactionService>();
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
+            // Thêm CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowReactApp",
+                    policy => policy.WithOrigins("http://localhost:3000")
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader());
+            });
             var app = builder.Build();
-
+            app.UseCors("AllowReactApp");
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
