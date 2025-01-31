@@ -29,5 +29,21 @@ namespace SHD_BankAccount_Transaction.Server.Data
                 .HasForeignKey(t => t.ToAccountId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
+        public void Seed()
+        {
+            // Kiểm tra xem bảng Accounts có dữ liệu hay không
+            if (!Accounts.Any())
+            {
+                // Thêm dữ liệu mẫu vào bảng Accounts
+                Accounts.AddRange(
+                    new Account { AccountName = "Account 1", Balance = 1000 },
+                    new Account { AccountName = "Account 2", Balance = 2000 },
+                    new Account { AccountName = "Account 3", Balance = 3000 }
+                );
+
+                // Lưu thay đổi vào cơ sở dữ liệu
+                SaveChanges();
+            }
+        }
     }
 }

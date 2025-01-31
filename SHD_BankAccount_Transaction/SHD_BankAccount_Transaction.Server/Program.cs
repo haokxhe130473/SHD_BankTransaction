@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SHD_BankAccount_Transaction.Server.Data;
 using SHD_BankAccount_Transaction.Server.Services;
 
@@ -24,7 +24,7 @@ namespace SHD_BankAccount_Transaction.Server
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            // Th�m CORS
+            // Thêm CORS
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowReactApp",
@@ -33,6 +33,21 @@ namespace SHD_BankAccount_Transaction.Server
                                     .AllowAnyHeader());
             });
             var app = builder.Build();
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<ApplicationDbContext>();
+                    context.Database.Migrate();
+                    context.Seed();
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred while seeding the database.");
+                }
+            }
             app.UseCors("AllowReactApp");
             app.UseDefaultFiles();
             app.UseStaticFiles();
