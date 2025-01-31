@@ -22,9 +22,9 @@
         public decimal Amount { get; set; }
         public string Description { get; set; }
         public int FromAccountId { get; set; }
-        public string FromAccountName { get; set; }
+        public string? FromAccountName { get; set; }
         public int ToAccountId { get; set; }
-        public string ToAccountName { get; set; }
+        public string? ToAccountName { get; set; }
     }
 
 }

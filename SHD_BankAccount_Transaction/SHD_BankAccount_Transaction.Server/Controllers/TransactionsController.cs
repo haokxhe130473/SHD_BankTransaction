@@ -21,7 +21,7 @@ namespace SHD_BankAccount_Transaction.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Transaction>> CreateTransaction(Transaction transaction)
+        public async Task<ActionResult<Transaction>> CreateTransaction(TransactionDTO transaction)
         {
             var createdTransaction = await _transactionService.CreateTransactionAsync(transaction);
             return this.OK(createdTransaction);

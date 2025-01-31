@@ -66,7 +66,7 @@ namespace SHD_BankAccount_Transaction.Server.Services
             return transactions;
         }
 
-        public async Task<Transaction> CreateTransactionAsync(Transaction transaction)
+        public async Task<TransactionDTO> CreateTransactionAsync(TransactionDTO transaction)
         {
             var fromAccount = await _context.Accounts.FindAsync(transaction.FromAccountId);
             var toAccount = await _context.Accounts.FindAsync(transaction.ToAccountId);
@@ -84,7 +84,21 @@ namespace SHD_BankAccount_Transaction.Server.Services
             fromAccount.Balance -= transaction.Amount;
             toAccount.Balance += transaction.Amount;
 
-            _context.Transactions.Add(transaction);
+            _context.Transactions.Add(new Transaction
+            {
+                FromAccountId = fromAccount.Id,
+                FromAccount = fromAccount,
+                ToAccountId = toAccount.Id,
+                ToAccount = toAccount,
+                Amount = transaction.Amount,
+                Description = transaction.Description,
+                TransactionDate = DateTime.Now,
+                IsDeleted = false,
+                CreatedTime = DateTime.Now,
+                CreatedUserId = transaction.FromAccountId,
+                LastModifiedTime = DateTime.Now,
+                LastModifiedUserId = transaction.FromAccountId,
+            });
             await _context.SaveChangesAsync();
 
             return transaction;

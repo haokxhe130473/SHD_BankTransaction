@@ -4,6 +4,7 @@ import { Grid } from '@mui/material';
 // import MyCards from '../../components/sections/dashboard/creditCards/MyCards';
 // import ExpenseStatistics from '../../components/sections/dashboard/expense/ExpenseStatistics';
 import InvoiceOverviewTable from '../../components/sections/dashboard/invoice/InvoiceOverviewTable';
+import AccountTransaction from '../../components/sections/dashboard/transactions/AccountTransaction';
 // import RecentTransactions from '../../components/sections/dashboard/transactions/RecentTransaction';
 // import QuickTransfer from '../../components/sections/dashboard/transfer/QuickTransfer';
 
@@ -36,7 +37,7 @@ const Dashboard = () => {
 
       {/* ------------- Data-Grid section ---------------- */}
       <Grid item xs={12} md={12} lg={12} zIndex={1}>
-        <InvoiceOverviewTable />
+        <AccountTransaction />
       </Grid>
     </Grid>
   );
